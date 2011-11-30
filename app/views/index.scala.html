@@ -1,17 +1,22 @@
 @(tasks: List[models.Task], form:play.data.Form[models.Task])
+@import play.data.validation.ValidationError
 
 @main("Tasks") {
-    <h1>@tasks.size task@(if(tasks.size != 1) "s")</h1>
-    <ul>
-        @for(task <- tasks) {
-            <li>@task.title
-            <a href="@routes.Application.delete(task.id)">delete</a></li>
-        }
-    </ul>
+  <h1>@tasks.size task@(if(tasks.size != 1) "s")</h1>
+  <ul>
+    @for(task <- tasks) {
+      <li>
+        @task.title
+        <a href="@routes.Application.delete(task.id)">delete</a>
+      </li>
+    }
+  </ul>
 
-    <form method="post" action="@routes.Application.add()">
-       <input name="title" placeholder="Enter a task description…">
-       <button type="submit">Add Task</button>
-       <p class="error">@form("title").errors.map(_.message).map(Messages(_))</p>
-    </form>
+  <form method="post" action="@routes.Application.add()">
+    <input name="title" placeholder="Enter a task description…">
+    <button type="submit">Add Task</button>
+    <p class="error">
+      @form("title").errors.map(_.message).map(Messages(_))
+    </p>
+  </form>
 }
